@@ -1,0 +1,12 @@
+com\waveshare\mapper\student\StudentMapper.class
+com\waveshare\service\UsualGradeService.class
+com\waveshare\bean\Student.class
+com\waveshare\intercepter\LoginInterceptor.class
+com\waveshare\mapper\usualgrade\UsualGradeMapper.class
+com\waveshare\service\impl\UsualGradeServiceImpl.class
+com\waveshare\controller\MvcTest2.class
+com\waveshare\service\impl\StudentServiceImpl.class
+com\waveshare\service\StudentService.class
+com\waveshare\bean\UsualGrade.class
+com\waveshare\controller\MvcTest.class
+com\waveshare\controller\StudentController.class

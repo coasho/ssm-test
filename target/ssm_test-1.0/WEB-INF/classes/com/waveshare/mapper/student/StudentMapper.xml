@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.waveshare.mapper.student.StudentMapper">
+    <sql id="allStudentCol">StdtID
+    ,StdtName,Stdt_Gender,StdtPhone</sql>
+    <resultMap id="studentMap" type="student">
+        <id property="id" column="StdtID"></id>
+        <result property="name" column="StdtName"></result>
+        <result property="gender" column="Stdt_Gender"></result>
+        <result property="phoneNum" column="StdtPhone"></result>
+        <collection property="usualGrades" column="StdtID"
+                    select="com.waveshare.mapper.usualgrade.UsualGradeMapper.getUsualGradeListByStudentID"></collection>
+    </resultMap>
+    <insert id="insertStudent">
+        <selectKey keyProperty="id" resultType="string" keyColumn="StdtID" order="AFTER">
+            select last_insert_id();
+        </selectKey>
+        insert into stdtinfo(StdtName,Stdt_Gender,StdtPhone)
+        value (#{name},#{gender},#{phoneNum})
+    </insert>
+    <update id="updateStudent">
+        <foreach collection="list" item="student" separator=";">
+            update stdtinfo
+            <set>
+                <if test="student.name!=null and student.name!=''">
+                    ,StdtName=#{student.name}
+                </if>
+                <if test="student.gender!=null and student.gender!=''">
+                    ,Stdt_Gender=#{student.gender}
+                </if>
+                <if test="student.phoneNum!=null and student.phoneNum!=''">
+                    ,StdtPhone=#{student.phoneNum}
+                </if>
+            </set>
+            where StdtID=#{student.id}
+        </foreach>
+    </update>
+    <delete id="deleteStudentByID">
+        delete
+        from stdtinfo
+        where StdtID = #{id};
+    </delete>
+    <select id="getStudentByCondition"  resultMap="studentMap">
+        select
+        <include refid="allStudentCol"></include>
+        from stdtinfo
+        <where>
+            <if test="student.id!=null and student.id!=''">
+                and StdtID like concat('%',#{student.id},'%')
+            </if>
+            <if test="student.name!=null and student.name!=''">
+                and StdtName like concat('%',#{student.name},'%')
+            </if>
+            <if test="student.gender!=null and student.gender!=''">
+                and Stdt_Gender like concat('%',#{student.gender},'%')
+            </if>
+            <if test="student.phoneNum!=null and student.phoneNum!=''">
+                and StdtPhone like concat('%',#{student.phoneNum},'%')
+            </if>
+        </where>
+        limit #{startRow},8;
+    </select>
+</mapper>

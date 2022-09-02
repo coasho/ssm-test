@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.waveshare.mapper.usualgrade.UsualGradeMapper">
+    <sql id="allUsualGradeCol">UsualPerfID
+    ,CurrentScore,UPerf_TypeID,UPerf_StdtID</sql>
+    <delete id="removeUsualGradeByStudentID" parameterType="string">
+        delete
+        from usualperf
+        where UPerf_StdtID = #{studentId};
+    </delete>
+    <resultMap id="usualGradeMap" type="UsualGrade">
+        <id property="id" column="UsualPerfID"></id>
+        <result property="currentScore" column="CurrentScore"></result>
+        <result property="typeID" column="UPerf_TypeID"></result>
+        <result property="studentID" column="UPerf_StdtID"></result>
+    </resultMap>
+    <select id="getUsualGradeListByStudentID" parameterType="string" resultMap="usualGradeMap">
+        select
+        <include refid="allUsualGradeCol"></include>
+        from usualperf
+        where UPerf_StdtID=#{studentId};
+    </select>
+    <insert id="insertUsualGrade">
+        insert into usualperf (CurrentScore,UPerf_TypeID,UPerf_StdtID)
+        value (#{currentScore},#{typeID},#{studentID});
+        <selectKey keyProperty="id" keyColumn="UsualPerfID" resultType="int" order="AFTER">
+            select last_insert_id();
+        </selectKey>
+    </insert>
+
+</mapper>
