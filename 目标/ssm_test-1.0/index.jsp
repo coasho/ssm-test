@@ -1,6 +1,5 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: WENXUAN WANG
+  Created by IntelliJ IDEA
   Date: 2022/8/11
   Time: 17:23
   To change this template use File | Settings | File Templates.
